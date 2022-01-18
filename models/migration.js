@@ -1,10 +1,15 @@
 const mongoose = require('mongoose');
-const user = require('./userModal')
+const   User = require('./userModal') 
+
+
+
 
 
 const migration = async ()=>{
-    const mig = new mongoose.model()
-
-    mig.save(user)
+    const user = new User({name: 'achraf',email: 'email@email.com',password: 'password',role: 'client'})
+    await user.save()
+    console.log(user)
 }
+
+migration()
 
