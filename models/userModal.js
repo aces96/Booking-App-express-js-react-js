@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 
 
 const userScheme =  new mongoose.Schema({
-    name: {
+    username: {
         type: String,
         min: 4,
         max: 20,
@@ -18,11 +18,15 @@ const userScheme =  new mongoose.Schema({
         min: 8,
         max: 30
     },
-    role: {
-        type: String,
-        min: 4,
-        max: 10
-    }
+    gender: [
+        'male',
+        'female'
+    ],
+    role: [
+        'admin',
+        'client',
+        'proprietaire'
+    ]
 })
 
 

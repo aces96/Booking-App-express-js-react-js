@@ -1,17 +1,18 @@
+require('dotenv').config()
 const express = require('express')
 const bodyparser = require('body-parser')
 const mongoose = require('mongoose')
-
-const userRouter = require('./router/signup')
-mongoose.connect('mongodb://localhost/bookingApp')
+const authen = require('./router/authentication')
+const {signUpMiddleware} = require('./middlewares/authmiddlewares/authmiddleware')
+mongoose.connect(process.env.DB_HOST)
 
 
 const app = express()
 
-app.listen(3000)
+app.listen(process.env.PORT)
 
 app.use(bodyparser.urlencoded({extended: true}))
 
 
-app.use('/api', userRouter)
+app.use('/api',signUpMiddleware, authen)
 
