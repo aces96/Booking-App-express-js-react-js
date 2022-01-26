@@ -1,5 +1,6 @@
 const User = require('../../models/userModal')
 const jwt = require('jsonwebtoken')
+const crypto = require('crypto')
 
 
 class authenticationController {
@@ -34,7 +35,7 @@ class authenticationController {
     signIn = async (req,res)=>{
 
         const user = await User.findOne({
-            username: req.body.name
+            username: req.body.username
         },(err,reslt)=>{
             if(err){
                 res.send('error')
@@ -42,22 +43,19 @@ class authenticationController {
             }else{
                 console.log(reslt)
             }
-        })
+        }).clone()
 
-        if(req.body.name == user.username && req.body.password == user.password ){
+        if(req.body.username == user.username && req.body.password == user.password ){
             const payload = {
                 username: user.username,
                 role: user.role
             }
-
-            const token = jwt.sign(payload,process.env.SECRET_KEY,{
+            const token = jwt.sign(payload,process.env.SECRET,{
                 expiresIn: "10d"
             })
 
-            
-
             res.status(200).json({
-                token: token
+                token: token,
             })
         }
 
