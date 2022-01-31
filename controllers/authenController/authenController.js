@@ -1,8 +1,6 @@
 const User = require('../../models/userModal')
 const jwt = require('jsonwebtoken')
-const crypto = require('crypto')
-
-
+const bcrypt = require('bcrypt')
 class authenticationController {
     signUp = async (req,res)=>{
             let username = req.body.username
@@ -10,11 +8,12 @@ class authenticationController {
             let password = req.body.password
             let gender = req.body.gender
             let role = req.body.role
+            let hashedPassword = bcrypt.hashSync(password,10)
 
             user = await  User.insertMany({
                 username: username,
                 email: email,
-                password: password,
+                password: hashedPassword,
                 gender: gender,
                 role: role
             },(err,resp)=>{
@@ -58,10 +57,6 @@ class authenticationController {
                 token: token,
             })
         }
-
-
-
-
     }
 }
 
